@@ -1,6 +1,17 @@
 get_n(Node, LN):-
     findall(X, dist(Node, X, _), LN).
 
+get_corresponding_heuristics([], Goal, X, Y):-
+    Y = X.
+
+get_corresponding_heuristics([H|T], Goal, NewLn, Accum):-
+    dist(H,Goal,Cost),
+    append(NewLn, [Cost], X),
+    get_corresponding_heuristics(T, Goal, X, Accum).
+
+add_tail([],X,[X]).
+add_tail([H|T],X,[H|L]):-add_tail(T,X,L).
+
 
 print_ls([]).
 print_ls([A|B]) :-
@@ -13,6 +24,8 @@ heur(From, To, Val) :-
     Val is X*(0.9).
 heur(_,_,100).
 
+min_list([H|T], Min) :-
+    min_list(T, H, Min).
 
 dist(agartala,ahmedabad,3305).
 dist(ahmedabad,agartala,3305).
