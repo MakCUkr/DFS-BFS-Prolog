@@ -1,72 +1,17 @@
+get_n(Node, LN):-
+    findall(X, dist(Node, X, _), LN).
+
+
 print_ls([]).
 print_ls([A|B]) :-
   write(A),
   write(","),
   print_ls(B).
-member(X,[X|_]).
-member(X,[_|Tail]):-member(X,Tail).
-empty_queue([]).
-empty_set([]).
-member_queue(E, S) :- member(E, S).
-add_to_queue(E, [], [E]).
-add_to_queue(E, [H|T], [H|Tnew]) :- add_to_queue(E, T, Tnew).
-add_list_to_queue([], Queue, Queue).
-add_list_to_queue([H|T], Queue, New_queue) :-
-    add_to_queue(H, Queue, Temp_queue),
-    add_list_to_queue(T, Temp_queue, New_queue).
-remove_from_queue(E, [E|T], T).
-append_queue(First, Second, Concatenation) :- 
-    append(First, Second, Concatenation).
-
-solve(Start, Goal):-
-    empty_queue(Empty_q),
-    add_to_queue(Start, Empty_q, First_q).
-
-
-        
-
-
-
-
-recursive_BFS([Q|Tail], Target):-
-    Q == Target,
-    write("FOUND SOLUTION").
-
-
-recursive_BFS([Q|Tail], Target):-
-    write("Appending all neighbours of"),
-    write(Q),
-    append_all_neighbors(Q, Newqueue),
-    write("Appended all neighbours for "),
-    write(Start).
-
-
-append_all_neighbors(A, Searched):-
-    write("here"),
-    dist(A, Other, X),
-    not(member(Other,Searched)),
-    append_all_neighbors(A,[Searched|Other]).
-
-append_all_neighbors(A, Searched):-
-    write("Queue:"),
-    print_ls(Searched).
-
-
-bfs(Node,Searched,Len,Target):-
-    dist(Node, Target, X),
-    Newlen is Len+X,
-    write("Final cost: "),
-    write(Newlen),
-    write("\n"),
-    write("Path: "),
-    print_ls(Searched),
-    write(Target).
 
 heur(From, To, Val) :- 
     dist(From, To, X),
     Val is X*(0.9).
-heur(_,_,10000).
-
+heur(_,_,100).
 
 
 dist(agartala,ahmedabad,3305).
