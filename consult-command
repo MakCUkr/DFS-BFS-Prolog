@@ -1,0 +1,3 @@
+consult("~/Desktop/IIIT/Sem_5/AI/Code/DFS-BFS-Prolog/rules.pl").
+get_corresponding_heuristics([agartala, bangalore], delhi, X, Final).
+solve_node(agartala, hubli).

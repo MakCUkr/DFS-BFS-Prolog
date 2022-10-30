@@ -1,3 +1,28 @@
+start(N, Goal):-
+    solve_node(N, Goal, 0).
+
+solve_node(N, Goal, Cost):-
+    N==Goal, write("Reached "), write(Goal),
+    write(" with total distance travelled "), write(Cost), nl.
+
+solve_node(N, Goal, Cost):-
+    get_n(N, LN),
+    write("Neighbors: "),nl,
+    print_ls(LN),
+    get_corresponding_heuristics(LN, Goal, NewLn, Accum),
+    nl, write("Corr heuristics: "),nl,
+    print_ls(Accum),
+    min_member(MinHeur, Accum), 
+    nl, write("Min heuristic val:"),
+    write(MinHeur),nl,
+    get_answer(Accum, MinHeur,LN, Nextnode),
+    write("Next node :"),
+    write(Nextnode),nl,!,
+    dist(N, Nextnode, Actual_cost),
+    Cost_new is Cost+Actual_cost,
+    solve_node(Nextnode, Goal, Cost_new).
+
+
 get_n(Node, LN):-
     findall(X, dist(Node, X, _), LN).
 
@@ -5,13 +30,15 @@ get_corresponding_heuristics([], Goal, X, Y):-
     Y = X.
 
 get_corresponding_heuristics([H|T], Goal, NewLn, Accum):-
-    dist(H,Goal,Cost),
+    heur(H,Goal,Cost),
     append(NewLn, [Cost], X),
     get_corresponding_heuristics(T, Goal, X, Accum).
 
 add_tail([],X,[X]).
 add_tail([H|T],X,[H|L]):-add_tail(T,X,L).
 
+get_answer([H|T], M, [J | J1], Ans) :- H == M, Ans = J.
+get_answer([H|T], M, [J | J1], Ans) :- H \= M, get_answer(T, M, J1, Ans).
 
 print_ls([]).
 print_ls([A|B]) :-
@@ -19,6 +46,8 @@ print_ls([A|B]) :-
   write(","),
   print_ls(B).
 
+heur(From, To, Val) :- 
+    From==To, Val is 0.
 heur(From, To, Val) :- 
     dist(From, To, X),
     Val is X*(0.9).
