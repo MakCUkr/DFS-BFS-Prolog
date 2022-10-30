@@ -8,7 +8,7 @@ print_ls([A|B]) :-
   print_ls(B).
 
 
-solve(Start,Target):-
+solve_dfs(Start,Target):-
     dfs(Start,[Start],0,Target).
 
 dfs(Node,Searched,Len,Target):-
