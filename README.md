@@ -44,7 +44,9 @@ Best-First-Search(Graph g, Node start)
 End procedure
 ```
 
-A simpler explanation is :
+A simpler explanation for BFS is :
+```
 1. Visit a node
 2. Find all its neighbors and their corresponding heuristics
 3. Visit the neighbour with the minimum heuristic.
+```
