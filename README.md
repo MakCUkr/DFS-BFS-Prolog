@@ -1,7 +1,7 @@
 # DFS and Best-first search implemented in Prolog. 
 
 This is a working implementation of the DFS and Best-first search algorithms in Prolog. The program searches for a route to be taken from one city to another by applying the mentioned algorithms. All the distances form one city to another are given as predicates in `final.pl`. Separate working models for DFS and BFS (best-first search) can be found in `sep_models/`.
-This was part of an assignment for Artificial Intelligence course at IIIT Delhi. The data for distacnes between cities as a CSV is in `roaddistance.csv`, and the assignment problem statement is in `problem.pdf`.
+This was part of an assignment for Artificial Intelligence course at IIIT Delhi. The data for distacnes between cities as a CSV is in `roaddistance.csv`, and the assignment problem statement is in `problem.pdf`. Note: for showing more details about how each path was explored, all the "write" commands in `final.pl` can be uncommented.
 
 ### DFS explanation
 
@@ -21,6 +21,8 @@ DFS(G,v)   ( v is the vertex where the search starts )
 	 end while
  END DFS()
 ```
+
+By uncommenting line 42 in `final.pl` DFS becomes a bit more efficient in solution finding, but then it is not pure DFS.
 
 ### BFS(Best-first search) algorithm
 

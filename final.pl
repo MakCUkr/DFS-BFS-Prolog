@@ -16,6 +16,7 @@ solve(Source, Destination, Strategy):-
 
 solve(Source, Destination, Strategy):-
     Strategy == 2,
+    write("Path: "),
     solve_node_bfs(Source, Destination, 0).
 
 solve(Source, Destination, Strategy):-
@@ -24,39 +25,48 @@ solve(Source, Destination, Strategy):-
 solve_dfs(Start,Target):-
     dfs(Start,[Start],0,Target).
 
-dfs(Node,Searched,Len,Target):-
-    dist(Node, Target, X),
-    Newlen is Len+X,
-    write("Final cost: "),
-    write(Newlen),
-    write("\n"),
-    write("Path: "),
-    print_ls(Searched),
-    write(Target).
 
 dfs(Node,Searched,Len,Target):-
+    % nl, write("1."),nl, 
+    Node == Target,
+    nl,nl,nl,
+    write("Final cost: "),
+    write(Len),nl,
+    reverse(Searched,Rev_searched),
+    write("Path: "),   
+    write(Rev_searched).
+
+dfs(Node,Searched,Len,Target):-
+    % write("2.Visiting "), write(Node), nl,
     dist(Node,Neighbor,Len2), 
     not(member(Neighbor,Searched)),
+    %Len < 7000,
+    % write(Neighbor), write(" is at a distance of "), write(Len2),
+    % write(" and is not a member of "), write(Searched),
     NewLen is Len+Len2,
     dfs(Neighbor,[Neighbor|Searched],NewLen,Target).
 
-
-start_bfs(N, Goal):-
-    solve_node(N, Goal, 0).
+dfs(Node,Searched,Len,Target):-
+    write("3."), write(Node), nl,
+    member(Node,Searched),
+    % write("Backtracking..."),nl,
+    %write("Reached roadbloc because "),write(Node),
+    %write(" is part of Searched: "), write(Searched),
+    1==2.
 
 solve_node_bfs(N, Goal, Cost):-
     N==Goal, write("Reached "), write(Goal),
     write(" with total distance travelled "), write(Cost), nl.
 
 solve_node_bfs(N, Goal, Cost):-
-    get_n(N, LN),
-    write("Finding neighbors for "), write(N), write("..."),nl,
+    get_n_bfs(N, LN),
+    % write("Finding neighbors for "), write(N), write("..."),nl,
     get_corresponding_heuristics_bfs(LN, Goal, NewLn, Accum),
-    write("Finding corresponding heuristics for neighbors..."), nl,
+    % write("Finding corresponding heuristics for neighbors..."), nl,
     min_member(MinHeur, Accum), 
     get_answer(Accum, MinHeur,LN, Nextnode),
-    write(Nextnode), write(" has minimum heuristic = "),
-    write(MinHeur),nl,!,
+    write(Nextnode),write(" -> "),
+    % write(" has minimum heuristic = "), write(MinHeur),nl,!,
     dist(N, Nextnode, Actual_cost),
     Cost_new is Cost+Actual_cost,
     solve_node_bfs(Nextnode, Goal, Cost_new).
